@@ -7,6 +7,10 @@ import com.emazon.stockService.domain.exception.NotFoundException;
 import com.emazon.stockService.domain.exception.InvalidNameException;
 import com.emazon.stockService.domain.exception.InvalidDescriptionException;
 import com.emazon.stockService.domain.exception.DuplicateNameException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.PageRequest;
 
 public class BrandUseCase implements BrandServicePort {
     private final BrandPersistencePort brandPersistencePort;
@@ -30,6 +34,13 @@ public class BrandUseCase implements BrandServicePort {
     @Override
     public boolean existsByName(String name) {
         return brandPersistencePort.existsByName(name);
+    }
+
+    @Override
+    public Page<Brand> listBrands(Pageable pageable, String sortBy, String sortDirection) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+        return brandPersistencePort.findAll(pageableWithSort);
     }
 
     private void validateBrand(Brand brand) {

@@ -7,8 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Arrays;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -55,5 +60,28 @@ class BrandRestControllerIntegrationTest {
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.name").value("Test Brand"))
                 .andExpect(jsonPath("$.description").value("Test Description"));
+    }
+
+    @Test
+    void listBrands_ShouldReturnPagedBrands() throws Exception {
+        Page<Brand> brandPage = new PageImpl<>(Arrays.asList(
+                new Brand(1L, "Brand 1", "Description 1"),
+                new Brand(2L, "Brand 2", "Description 2")
+        ), PageRequest.of(0, 10), 2);
+
+        when(brandServicePort.listBrands(any(), any(), any())).thenReturn(brandPage);
+
+        mockMvc.perform(get("/api/brands")
+                        .param("page", "0")
+                        .param("size", "10")
+                        .param("sortBy", "name")
+                        .param("sortDirection", "asc"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.content[0].id").value(1))
+                .andExpect(jsonPath("$.content[0].name").value("Brand 1"))
+                .andExpect(jsonPath("$.content[1].id").value(2))
+                .andExpect(jsonPath("$.content[1].name").value("Brand 2"))
+                .andExpect(jsonPath("$.totalElements").value(2));
     }
 }

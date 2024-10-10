@@ -6,6 +6,8 @@ import com.emazon.stockService.adapters.driving.http.mapper.BrandRequestMapper;
 import com.emazon.stockService.adapters.driving.http.mapper.BrandResponseMapper;
 import com.emazon.stockService.domain.api.BrandServicePort;
 import com.emazon.stockService.domain.model.Brand;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,5 +42,15 @@ public class BrandRestController {
         Brand brand = brandServicePort.getBrandById(id);
         BrandResponse response = brandResponseMapper.toResponse(brand);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<BrandResponse>> listBrands(
+            Pageable pageable,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDirection) {
+        Page<Brand> brands = brandServicePort.listBrands(pageable, sortBy, sortDirection);
+        Page<BrandResponse> responsePages = brands.map(brandResponseMapper::toResponse);
+        return ResponseEntity.ok(responsePages);
     }
 }

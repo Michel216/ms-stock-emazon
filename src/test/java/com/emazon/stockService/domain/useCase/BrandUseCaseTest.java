@@ -7,7 +7,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -101,5 +107,24 @@ class BrandUseCaseTest {
 
         assertThrows(NotFoundException.class, () -> brandUseCase.getBrandById(id));
         verify(brandPersistencePort).findById(id);
+    }
+    @Test
+    void listBrands_ShouldReturnPagedBrands() {
+        Pageable pageable = PageRequest.of(0, 10);
+        List<Brand> brands = Arrays.asList(
+                new Brand(1L, "Brand 1", "Description 1"),
+                new Brand(2L, "Brand 2", "Description 2")
+        );
+        Page<Brand> brandPage = new PageImpl<>(brands, pageable, brands.size());
+
+        when(brandPersistencePort.findAll(any(Pageable.class))).thenReturn(brandPage);
+
+        Page<Brand> result = brandUseCase.listBrands(pageable, "name", "asc");
+
+        assertNotNull(result);
+        assertEquals(2, result.getContent().size());
+        assertEquals("Brand 1", result.getContent().get(0).getName());
+        assertEquals("Brand 2", result.getContent().get(1).getName());
+        verify(brandPersistencePort).findAll(any(Pageable.class));
     }
 }

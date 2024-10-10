@@ -5,6 +5,8 @@ import com.emazon.stockService.adapters.driven.jpa.mysql.mapper.BrandEntityMappe
 import com.emazon.stockService.adapters.driven.jpa.mysql.repository.BrandRepository;
 import com.emazon.stockService.domain.model.Brand;
 import com.emazon.stockService.domain.spi.BrandPersistencePort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
@@ -32,5 +34,11 @@ public class BrandJpaAdapter implements BrandPersistencePort {
     @Override
     public boolean existsByName(String name) {
         return brandRepository.existsByName(name);
+    }
+
+    @Override
+    public Page<Brand> findAll(Pageable pageable) {
+        Page<BrandEntity> brandEntities = brandRepository.findAll(pageable);
+        return brandEntities.map(brandEntityMapper::toDomain);
     }
 }
