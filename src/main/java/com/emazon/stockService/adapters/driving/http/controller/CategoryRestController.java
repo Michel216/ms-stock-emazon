@@ -6,6 +6,8 @@ import com.emazon.stockService.adapters.driving.http.mapper.CategoryRequestMappe
 import com.emazon.stockService.adapters.driving.http.mapper.CategoryResponseMapper;
 import com.emazon.stockService.domain.api.CategoryServicePort;
 import com.emazon.stockService.domain.model.Category;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,5 +42,15 @@ public class CategoryRestController {
         Category category = categoryServicePort.getCategoryById(id);
         CategoryResponse response = categoryResponseMapper.toResponse(category);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<CategoryResponse>> listCategories(
+            Pageable pageable,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDirection) {
+        Page<Category> categories = categoryServicePort.listCategories(pageable, sortBy, sortDirection);
+        Page<CategoryResponse> responsePages = categories.map(categoryResponseMapper::toResponse);
+        return ResponseEntity.ok(responsePages);
     }
 }

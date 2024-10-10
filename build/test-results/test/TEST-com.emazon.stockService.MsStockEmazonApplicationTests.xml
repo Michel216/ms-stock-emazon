@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.emazon.stockService.MsStockEmazonApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-10-09T20:05:53" hostname="LAPTOP-PE05IENQ" time="3.25">
+<testsuite name="com.emazon.stockService.MsStockEmazonApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-10-10T16:56:13" hostname="LAPTOP-PE05IENQ" time="2.093">
   <properties/>
-  <testcase name="contextLoads()" classname="com.emazon.stockService.MsStockEmazonApplicationTests" time="3.25"/>
-  <system-out><![CDATA[15:05:19.059 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.emazon.stockService.MsStockEmazonApplicationTests]: MsStockEmazonApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-15:05:20.062 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.emazon.EmazonStockServiceApplication for test class com.emazon.stockService.MsStockEmazonApplicationTests
+  <testcase name="contextLoads()" classname="com.emazon.stockService.MsStockEmazonApplicationTests" time="2.093"/>
+  <system-out><![CDATA[11:55:50.498 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.emazon.stockService.MsStockEmazonApplicationTests]: MsStockEmazonApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+11:55:51.414 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.emazon.EmazonStockServiceApplication for test class com.emazon.stockService.MsStockEmazonApplicationTests
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -14,26 +14,21 @@
 
  :: Spring Boot ::                (v3.3.3)
 
-2024-10-09T15:05:22.713-05:00  INFO 18276 --- [Emazon Stock Service] [    Test worker] c.e.s.MsStockEmazonApplicationTests      : Starting MsStockEmazonApplicationTests using Java 17.0.12 with PID 18276 (started by miche in C:\Users\miche\Documents\ms-stock-emazon)
-2024-10-09T15:05:22.720-05:00  INFO 18276 --- [Emazon Stock Service] [    Test worker] c.e.s.MsStockEmazonApplicationTests      : No active profile set, falling back to 1 default profile: "default"
-2024-10-09T15:05:26.625-05:00  INFO 18276 --- [Emazon Stock Service] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-10-09T15:05:27.092-05:00  INFO 18276 --- [Emazon Stock Service] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 433 ms. Found 1 JPA repository interface.
-2024-10-09T15:05:31.031-05:00  INFO 18276 --- [Emazon Stock Service] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-10-09T15:05:31.452-05:00  INFO 18276 --- [Emazon Stock Service] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
-2024-10-09T15:05:31.754-05:00  INFO 18276 --- [Emazon Stock Service] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2024-10-09T15:05:34.314-05:00  INFO 18276 --- [Emazon Stock Service] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-10-09T15:05:34.491-05:00  INFO 18276 --- [Emazon Stock Service] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2024-10-09T15:05:35.993-05:00  INFO 18276 --- [Emazon Stock Service] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3a751535
-2024-10-09T15:05:36.000-05:00  INFO 18276 --- [Emazon Stock Service] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2024-10-09T15:05:36.193-05:00  WARN 18276 --- [Emazon Stock Service] [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-10-09T15:05:36.197-05:00  WARN 18276 --- [Emazon Stock Service] [    Test worker] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
-2024-10-09T15:05:41.214-05:00  INFO 18276 --- [Emazon Stock Service] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-Hibernate: create table categories (id bigint not null auto_increment, description varchar(90) not null, name varchar(50) not null, primary key (id)) engine=InnoDB
-Hibernate: alter table categories drop index UKt8o6pivur7nn124jehx7cygw5
-Hibernate: alter table categories add constraint UKt8o6pivur7nn124jehx7cygw5 unique (name)
-2024-10-09T15:05:42.291-05:00  INFO 18276 --- [Emazon Stock Service] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-10-09T15:05:48.093-05:00  WARN 18276 --- [Emazon Stock Service] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-10-09T15:05:53.355-05:00  INFO 18276 --- [Emazon Stock Service] [    Test worker] c.e.s.MsStockEmazonApplicationTests      : Started MsStockEmazonApplicationTests in 32.023 seconds (process running for 40.934)
+2024-10-10T11:55:53.425-05:00  INFO 15928 --- [Emazon Stock Service] [    Test worker] c.e.s.MsStockEmazonApplicationTests      : Starting MsStockEmazonApplicationTests using Java 17.0.12 with PID 15928 (started by miche in C:\Users\miche\Documents\ms-stock-emazon)
+2024-10-10T11:55:53.429-05:00  INFO 15928 --- [Emazon Stock Service] [    Test worker] c.e.s.MsStockEmazonApplicationTests      : No active profile set, falling back to 1 default profile: "default"
+2024-10-10T11:55:58.271-05:00  INFO 15928 --- [Emazon Stock Service] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-10-10T11:55:58.546-05:00  INFO 15928 --- [Emazon Stock Service] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 218 ms. Found 1 JPA repository interface.
+2024-10-10T11:56:01.311-05:00  INFO 15928 --- [Emazon Stock Service] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-10-10T11:56:01.705-05:00  INFO 15928 --- [Emazon Stock Service] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2024-10-10T11:56:01.953-05:00  INFO 15928 --- [Emazon Stock Service] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-10-10T11:56:03.818-05:00  INFO 15928 --- [Emazon Stock Service] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-10-10T11:56:03.932-05:00  INFO 15928 --- [Emazon Stock Service] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-10-10T11:56:04.889-05:00  INFO 15928 --- [Emazon Stock Service] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4e26564d
+2024-10-10T11:56:04.897-05:00  INFO 15928 --- [Emazon Stock Service] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-10-10T11:56:05.048-05:00  WARN 15928 --- [Emazon Stock Service] [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-10-10T11:56:09.747-05:00  INFO 15928 --- [Emazon Stock Service] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-10-10T11:56:09.877-05:00  INFO 15928 --- [Emazon Stock Service] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-10-10T11:56:13.731-05:00  INFO 15928 --- [Emazon Stock Service] [    Test worker] c.e.s.MsStockEmazonApplicationTests      : Started MsStockEmazonApplicationTests in 21.329 seconds (process running for 30.279)
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

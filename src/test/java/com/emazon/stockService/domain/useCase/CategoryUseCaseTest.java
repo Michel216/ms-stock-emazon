@@ -10,7 +10,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -100,5 +106,25 @@ class CategoryUseCaseTest {
         when(categoryPersistencePort.findById(id)).thenReturn(Optional.empty());
 
         assertThrows(CategoryNotFoundException.class, () -> categoryUseCase.getCategoryById(id));
+    }
+
+    @Test
+    void listCategories_ShouldReturnPagedCategories() {
+        Pageable pageable = PageRequest.of(0, 10);
+        List<Category> categories = Arrays.asList(
+                new Category(1L, "Category 1", "Description 1"),
+                new Category(2L, "Category 2", "Description 2")
+        );
+        Page<Category> categoryPage = new PageImpl<>(categories, pageable, categories.size());
+
+        when(categoryPersistencePort.findAll(any(Pageable.class))).thenReturn(categoryPage);
+
+        Page<Category> result = categoryUseCase.listCategories(pageable, "name", "asc");
+
+        assertNotNull(result);
+        assertEquals(2, result.getContent().size());
+        assertEquals("Category 1", result.getContent().get(0).getName());
+        assertEquals("Category 2", result.getContent().get(1).getName());
+        verify(categoryPersistencePort).findAll(any(Pageable.class));
     }
 }

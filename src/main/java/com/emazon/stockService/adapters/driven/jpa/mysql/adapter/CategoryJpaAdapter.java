@@ -5,6 +5,8 @@ import com.emazon.stockService.adapters.driven.jpa.mysql.mapper.CategoryEntityMa
 import com.emazon.stockService.adapters.driven.jpa.mysql.repository.CategoryRepository;
 import com.emazon.stockService.domain.model.Category;
 import com.emazon.stockService.domain.spi.CategoryPersistencePort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
@@ -32,5 +34,11 @@ public class CategoryJpaAdapter implements CategoryPersistencePort {
     @Override
     public boolean existsByName(String name) {
         return categoryRepository.existsByName(name);
+    };
+
+    @Override
+    public Page<Category> findAll(Pageable pageable) {
+        Page<CategoryEntity> categoryEntities = categoryRepository.findAll(pageable);
+        return categoryEntities.map(categoryEntityMapper::toDomain);
     }
 }
