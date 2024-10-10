@@ -1,15 +1,18 @@
 package com.emazon.stockService.adapters.driven.jpa.mysql.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "categories")
 public class CategoryEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,13 +22,4 @@ public class CategoryEntity {
 
     @Column(nullable = false, length = 90)
     private String description;
-
-
-    public CategoryEntity() {}
-
-    public CategoryEntity(Long id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-    }
 }

@@ -3,10 +3,10 @@ package com.emazon.stockService.domain.useCase;
 import com.emazon.stockService.domain.api.CategoryServicePort;
 import com.emazon.stockService.domain.model.Category;
 import com.emazon.stockService.domain.spi.CategoryPersistencePort;
-import com.emazon.stockService.domain.exception.CategoryNotFoundException;
-import com.emazon.stockService.domain.exception.InvalidCategoryNameException;
-import com.emazon.stockService.domain.exception.InvalidCategoryDescriptionException;
-import com.emazon.stockService.domain.exception.DuplicateCategoryNameException;
+import com.emazon.stockService.domain.exception.NotFoundException;
+import com.emazon.stockService.domain.exception.InvalidNameException;
+import com.emazon.stockService.domain.exception.InvalidDescriptionException;
+import com.emazon.stockService.domain.exception.DuplicateNameException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
@@ -28,7 +28,7 @@ public class CategoryUseCase implements CategoryServicePort {
     @Override
     public Category getCategoryById(Long id) {
         return categoryPersistencePort.findById(id)
-                .orElseThrow(() -> new CategoryNotFoundException("Category not found with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Category not found with id: " + id));
     }
 
     @Override
@@ -45,19 +45,19 @@ public class CategoryUseCase implements CategoryServicePort {
 
     private void validateCategory(Category category) {
         if (category.getName() == null || category.getName().trim().isEmpty()) {
-            throw new InvalidCategoryNameException("Category name cannot be empty");
+            throw new InvalidNameException("Category name cannot be empty");
         }
         if (category.getName().length() > 50) {
-            throw new InvalidCategoryNameException("Category name cannot exceed 50 characters");
+            throw new InvalidNameException("Category name cannot exceed 50 characters");
         }
         if (category.getDescription() == null || category.getDescription().trim().isEmpty()) {
-            throw new InvalidCategoryDescriptionException("Category description cannot be empty");
+            throw new InvalidDescriptionException("Category description cannot be empty");
         }
         if (category.getDescription().length() > 90) {
-            throw new InvalidCategoryDescriptionException("Category description cannot exceed 90 characters");
+            throw new InvalidDescriptionException("Category description cannot exceed 90 characters");
         }
         if (categoryPersistencePort.existsByName(category.getName())) {
-            throw new DuplicateCategoryNameException("Category name already exists");
+            throw new DuplicateNameException("Category name already exists");
         }
     }
 }

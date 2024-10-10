@@ -34,7 +34,7 @@ public class CategoryJpaAdapter implements CategoryPersistencePort {
     @Override
     public boolean existsByName(String name) {
         return categoryRepository.existsByName(name);
-    };
+    }
 
     @Override
     public Page<Category> findAll(Pageable pageable) {

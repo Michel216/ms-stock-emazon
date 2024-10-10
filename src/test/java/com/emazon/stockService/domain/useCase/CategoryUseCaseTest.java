@@ -1,9 +1,9 @@
 package com.emazon.stockService.domain.useCase;
 
-import com.emazon.stockService.domain.exception.CategoryNotFoundException;
-import com.emazon.stockService.domain.exception.DuplicateCategoryNameException;
-import com.emazon.stockService.domain.exception.InvalidCategoryDescriptionException;
-import com.emazon.stockService.domain.exception.InvalidCategoryNameException;
+import com.emazon.stockService.domain.exception.NotFoundException;
+import com.emazon.stockService.domain.exception.DuplicateNameException;
+import com.emazon.stockService.domain.exception.InvalidDescriptionException;
+import com.emazon.stockService.domain.exception.InvalidNameException;
 import com.emazon.stockService.domain.model.Category;
 import com.emazon.stockService.domain.spi.CategoryPersistencePort;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,28 +54,28 @@ class CategoryUseCaseTest {
     void createCategory_EmptyName_ShouldThrowInvalidCategoryNameException() {
         Category category = new Category(null, "", "Test Description");
 
-        assertThrows(InvalidCategoryNameException.class, () -> categoryUseCase.createCategory(category));
+        assertThrows(InvalidNameException.class, () -> categoryUseCase.createCategory(category));
     }
 
     @Test
     void createCategory_LongName_ShouldThrowInvalidCategoryNameException() {
         Category category = new Category(null, "A".repeat(51), "Test Description");
 
-        assertThrows(InvalidCategoryNameException.class, () -> categoryUseCase.createCategory(category));
+        assertThrows(InvalidNameException.class, () -> categoryUseCase.createCategory(category));
     }
 
     @Test
     void createCategory_EmptyDescription_ShouldThrowInvalidCategoryDescriptionException() {
         Category category = new Category(null, "Test Category", "");
 
-        assertThrows(InvalidCategoryDescriptionException.class, () -> categoryUseCase.createCategory(category));
+        assertThrows(InvalidDescriptionException.class, () -> categoryUseCase.createCategory(category));
     }
 
     @Test
     void createCategory_LongDescription_ShouldThrowInvalidCategoryDescriptionException() {
         Category category = new Category(null, "Test Category", "A".repeat(91));
 
-        assertThrows(InvalidCategoryDescriptionException.class, () -> categoryUseCase.createCategory(category));
+        assertThrows(InvalidDescriptionException.class, () -> categoryUseCase.createCategory(category));
     }
 
    @Test
@@ -83,7 +83,7 @@ class CategoryUseCaseTest {
         Category category = new Category(null, "Test Category", "Test Description");
         when(categoryPersistencePort.existsByName(anyString())).thenReturn(true);
 
-        assertThrows(DuplicateCategoryNameException.class, () -> categoryUseCase.createCategory(category));
+        assertThrows(DuplicateNameException.class, () -> categoryUseCase.createCategory(category));
     }
 
     @Test
@@ -105,7 +105,7 @@ class CategoryUseCaseTest {
         Long id = 1L;
         when(categoryPersistencePort.findById(id)).thenReturn(Optional.empty());
 
-        assertThrows(CategoryNotFoundException.class, () -> categoryUseCase.getCategoryById(id));
+        assertThrows(NotFoundException.class, () -> categoryUseCase.getCategoryById(id));
     }
 
     @Test

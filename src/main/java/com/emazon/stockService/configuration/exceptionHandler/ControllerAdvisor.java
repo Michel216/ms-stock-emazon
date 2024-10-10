@@ -1,9 +1,7 @@
 package com.emazon.stockService.configuration.exceptionHandler;
 
-import com.emazon.stockService.domain.exception.CategoryNotFoundException;
-import com.emazon.stockService.domain.exception.DuplicateCategoryNameException;
-import com.emazon.stockService.domain.exception.InvalidCategoryDescriptionException;
-import com.emazon.stockService.domain.exception.InvalidCategoryNameException;
+
+import com.emazon.stockService.domain.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,9 +14,9 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(CategoryNotFoundException.class)
-    public ResponseEntity<ExceptionResponse> handleCategoryNotFoundException(
-            CategoryNotFoundException ex, WebRequest request) {
+    @ExceptionHandler({NotFoundException.class, NotFoundException.class})
+    public ResponseEntity<ExceptionResponse> handleNotFoundException(
+            RuntimeException ex, WebRequest request) {
         ExceptionResponse response = new ExceptionResponse(
                 LocalDateTime.now(),
                 ex.getMessage(),
@@ -26,8 +24,9 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({InvalidCategoryNameException.class, InvalidCategoryDescriptionException.class})
-    public ResponseEntity<ExceptionResponse> handleInvalidCategoryException(
+    @ExceptionHandler({InvalidNameException.class, InvalidDescriptionException.class,
+            InvalidNameException.class, InvalidDescriptionException.class})
+    public ResponseEntity<ExceptionResponse> handleInvalidException(
             RuntimeException ex, WebRequest request) {
         ExceptionResponse response = new ExceptionResponse(
                 LocalDateTime.now(),
@@ -36,9 +35,9 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(DuplicateCategoryNameException.class)
-    public ResponseEntity<ExceptionResponse> handleDuplicateCategoryNameException(
-            DuplicateCategoryNameException ex, WebRequest request) {
+    @ExceptionHandler({DuplicateNameException.class, DuplicateNameException.class})
+    public ResponseEntity<ExceptionResponse> handleDuplicateNameException(
+            RuntimeException ex, WebRequest request) {
         ExceptionResponse response = new ExceptionResponse(
                 LocalDateTime.now(),
                 ex.getMessage(),
