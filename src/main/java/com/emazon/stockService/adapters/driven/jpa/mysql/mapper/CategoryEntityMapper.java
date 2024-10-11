@@ -12,6 +12,7 @@ public interface CategoryEntityMapper {
     @Mapping(target = "id", source = "id")
     @Mapping(target = "name", source = "name")
     @Mapping(target = "description", source = "description")
+    @Mapping(target = "articles", source = "articles")
     Category toDomain(CategoryEntity entity);
 
     @Mapping(target = "id", source = "id")

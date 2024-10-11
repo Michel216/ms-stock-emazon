@@ -2,8 +2,8 @@ package com.emazon.stockService.adapters.driving.http.controller;
 
 import com.emazon.stockService.adapters.driving.http.dto.request.CategoryRequest;
 import com.emazon.stockService.adapters.driving.http.dto.response.CategoryResponse;
-import com.emazon.stockService.adapters.driving.http.mapper.CategoryRequestMapper;
-import com.emazon.stockService.adapters.driving.http.mapper.CategoryResponseMapper;
+import com.emazon.stockService.adapters.driving.http.mapper.request.CategoryRequestMapper;
+import com.emazon.stockService.adapters.driving.http.mapper.response.CategoryResponseMapper;
 import com.emazon.stockService.domain.api.CategoryServicePort;
 import com.emazon.stockService.domain.model.Category;
 import org.springframework.data.domain.Page;
@@ -31,7 +31,7 @@ public class CategoryRestController {
 
     @PostMapping
     public ResponseEntity<CategoryResponse> createCategory(@Valid @RequestBody CategoryRequest categoryRequest) {
-        Category category = categoryRequestMapper.toDomain(categoryRequest);
+        Category category = categoryRequestMapper.toCategory(categoryRequest);
         Category createdCategory = categoryServicePort.createCategory(category);
         CategoryResponse response = categoryResponseMapper.toResponse(createdCategory);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
