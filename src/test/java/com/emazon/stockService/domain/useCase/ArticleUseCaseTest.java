@@ -1,5 +1,3 @@
-// src/test/java/com/emazon/stockService/domain/usecase/ArticleUseCaseTest.java
-
 package com.emazon.stockService.domain.useCase;
 
 import com.emazon.stockService.domain.exception.NotFoundException;
@@ -123,6 +121,11 @@ class ArticleUseCaseTest {
         assertNotNull(result);
         assertEquals(article.getId(), result.getId());
         assertEquals(article.getName(), result.getName());
+        assertEquals(article.getDescription(), result.getDescription());
+        assertEquals(article.getQuantity(), result.getQuantity());
+        assertEquals(article.getPrice(), result.getPrice());
+        assertEquals(article.getBrand(), result.getBrand());
+        assertEquals(article.getCategories(), result.getCategories());
         verify(articlePersistencePort).findById(id);
     }
 
@@ -134,6 +137,7 @@ class ArticleUseCaseTest {
         assertThrows(NotFoundException.class, () -> articleUseCase.getArticleById(id));
         verify(articlePersistencePort).findById(id);
     }
+
 
     private Article createValidArticle() {
         Article article = new Article();

@@ -1,5 +1,3 @@
-// src/main/java/com/emazon/stockService/adapters/driven/jpa/mysql/adapter/ArticleJpaAdapter.java
-
 package com.emazon.stockService.adapters.driven.jpa.mysql.adapter;
 
 import com.emazon.stockService.adapters.driven.jpa.mysql.entity.ArticleEntity;

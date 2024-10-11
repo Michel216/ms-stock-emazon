@@ -3,7 +3,6 @@ package com.emazon.stockService.domain.useCase;
 import com.emazon.stockService.domain.api.ArticleServicePort;
 import com.emazon.stockService.domain.model.Article;
 import com.emazon.stockService.domain.spi.ArticlePersistencePort;
-import com.emazon.stockService.domain.exception.NotFoundException;
 import com.emazon.stockService.domain.exception.*;
 
 import java.math.BigDecimal;

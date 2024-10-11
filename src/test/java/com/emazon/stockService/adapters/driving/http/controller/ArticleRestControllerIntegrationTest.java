@@ -1,9 +1,8 @@
-// src/test/java/com/emazon/stockService/adapters/driving/http/controller/ArticleRestControllerIntegrationTest.java
-
 package com.emazon.stockService.adapters.driving.http.controller;
 
 import com.emazon.stockService.adapters.driving.http.dto.request.ArticleRequest;
 import com.emazon.stockService.domain.api.ArticleServicePort;
+import com.emazon.stockService.domain.exception.NotFoundException;
 import com.emazon.stockService.domain.model.Article;
 import com.emazon.stockService.domain.model.Brand;
 import com.emazon.stockService.domain.model.Category;
@@ -91,5 +90,17 @@ class ArticleRestControllerIntegrationTest {
                 .andExpect(jsonPath("$.price").value(19.99))
                 .andExpect(jsonPath("$.brand.id").value(1L))
                 .andExpect(jsonPath("$.categories[0].id").value(1L));
+    }
+
+    @Test
+    void getArticleById_NonExistingId_ShouldReturnNotFound() throws Exception {
+        Long articleId = 1L;
+
+        when(articleServicePort.getArticleById(articleId)).thenThrow(new NotFoundException("Article not found with id: " + articleId));
+
+        mockMvc.perform(get("/api/articles/{id}", articleId))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.message").value("Article not found with id: " + articleId));
     }
 }
