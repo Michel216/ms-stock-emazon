@@ -1,5 +1,3 @@
-// src/main/java/com/emazon/stockService/adapters/driving/http/mapper/ArticleResponseMapper.java
-
 package com.emazon.stockService.adapters.driving.http.mapper.response;
 
 import com.emazon.stockService.adapters.driving.http.dto.response.ArticleResponse;

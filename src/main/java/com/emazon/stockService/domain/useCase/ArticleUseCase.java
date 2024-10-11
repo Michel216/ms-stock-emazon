@@ -4,6 +4,8 @@ import com.emazon.stockService.domain.api.ArticleServicePort;
 import com.emazon.stockService.domain.model.Article;
 import com.emazon.stockService.domain.spi.ArticlePersistencePort;
 import com.emazon.stockService.domain.exception.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -25,6 +27,24 @@ public class ArticleUseCase implements ArticleServicePort {
     public Article getArticleById(Long id) {
         return articlePersistencePort.findById(id)
                 .orElseThrow(() -> new NotFoundException("Article not found with id: " + id));
+    }
+    @Override
+    public Page<Article> listArticles(String name, Long categoryId, Long brandId, String sortBy, String sortDirection, Pageable pageable) {
+        return articlePersistencePort.findAll(name, categoryId, brandId, sortBy, sortDirection, pageable);
+    }
+
+    @Override
+    public Article updateArticle(Long id, Article updatedArticle) {
+        Article existingArticle = getArticleById(id);
+
+        existingArticle.setName(updatedArticle.getName());
+        existingArticle.setDescription(updatedArticle.getDescription());
+        existingArticle.setQuantity(updatedArticle.getQuantity());
+        existingArticle.setPrice(updatedArticle.getPrice());
+        existingArticle.setBrand(updatedArticle.getBrand());
+        existingArticle.setCategories(updatedArticle.getCategories());
+
+        return articlePersistencePort.updateArticle(existingArticle);
     }
 
     private void validateArticle(Article article) {

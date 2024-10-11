@@ -10,8 +10,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -138,6 +143,59 @@ class ArticleUseCaseTest {
         verify(articlePersistencePort).findById(id);
     }
 
+    @Test
+    void listArticles_ShouldReturnPageOfArticles() {
+        String name = "Test";
+        Long categoryId = 1L;
+        Long brandId = 1L;
+        String sortBy = "name";
+        String sortDirection = "ASC";
+        Pageable pageable = PageRequest.of(0, 10);
+        Article article1 = createValidArticle();
+        Article article2 = createValidArticle();
+        article2.setId(2L);
+        Page<Article> expectedPage = new PageImpl<>(Arrays.asList(article1, article2));
+
+        when(articlePersistencePort.findAll(name, categoryId, brandId, sortBy, sortDirection, pageable)).thenReturn(expectedPage);
+
+        Page<Article> result = articleUseCase.listArticles(name, categoryId, brandId, sortBy, sortDirection, pageable);
+
+        assertNotNull(result);
+        assertEquals(2, result.getTotalElements());
+        verify(articlePersistencePort).findAll(name, categoryId, brandId, sortBy, sortDirection, pageable);
+    }
+
+    @Test
+    void updateArticle_ExistingArticle_ShouldUpdateSuccessfully() {
+        Long id = 1L;
+        Article existingArticle = createValidArticle();
+        Article updatedArticle = createValidArticle();
+        updatedArticle.setName("Updated Name");
+        updatedArticle.setDescription("Updated Description");
+
+        when(articlePersistencePort.findById(id)).thenReturn(Optional.of(existingArticle));
+        when(articlePersistencePort.updateArticle(any(Article.class))).thenReturn(updatedArticle);
+
+        Article result = articleUseCase.updateArticle(id, updatedArticle);
+
+        assertNotNull(result);
+        assertEquals(updatedArticle.getName(), result.getName());
+        assertEquals(updatedArticle.getDescription(), result.getDescription());
+        verify(articlePersistencePort).findById(id);
+        verify(articlePersistencePort).updateArticle(any(Article.class));
+    }
+
+    @Test
+    void updateArticle_NonExistingArticle_ShouldThrowArticleNotFoundException() {
+        Long id = 1L;
+        Article updatedArticle = createValidArticle();
+
+        when(articlePersistencePort.findById(id)).thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> articleUseCase.updateArticle(id, updatedArticle));
+        verify(articlePersistencePort).findById(id);
+        verify(articlePersistencePort, never()).updateArticle(any(Article.class));
+    }
 
     private Article createValidArticle() {
         Article article = new Article();

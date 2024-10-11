@@ -6,12 +6,10 @@ import java.util.Objects;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 public class Article {
     private Long id;
@@ -22,6 +20,10 @@ public class Article {
     private Brand brand;
     private Set<Category> categories = new HashSet<>();
 
+    public Article() {
+        this.categories = new HashSet<>();
+    }
+
     public Article(Long id, String name, String description, int quantity, BigDecimal price, Brand brand) {
         this.id = id;
         this.name = name;
@@ -29,6 +31,7 @@ public class Article {
         this.quantity = quantity;
         this.price = price;
         this.brand = brand;
+        this.categories = new HashSet<>();
     }
 
     public void addCategory(Category category) {
